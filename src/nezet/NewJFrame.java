@@ -170,15 +170,29 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mnuPrgMentesActionPerformed
 
     private void mnuPrgBetoltesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrgBetoltesActionPerformed
-        /* a beolvasás alapszerkezete: */
+                /* a beolvasás alapszerkezete: */
         JFileChooser jfc = new JFileChooser(System.getProperty("user.dir"));//aktuális projekt könnyvtár
         int gomb = jfc.showSaveDialog(rootPane);//null | this <-- ez ua, mint rootPane
         if (gomb == JFileChooser.APPROVE_OPTION) {
             File kivalasztottFajl = jfc.getSelectedFile();
             try {
-                String sorok = Files.readString(kivalasztottFajl.toPath());
+                String read = Files.readString(kivalasztottFajl.toPath());
+                String[] readlines = read.trim().split("\n");
+                String[] nev = readlines[0].split(": ");
+                String[] szak = readlines[1].split(": ");
+                String fszak = szak[1].substring(szak[1].length()-2, szak[1].length()-1);
+                int ffszak = Integer.parseInt(fszak);
+                String[] hir = readlines[2].split(": ");
+                System.out.println(hir[1]);
+                txtNev.setText(nev[1]);
+                cmbSzak.setSelectedIndex(ffszak);
+                if(hir[1].equals("kér")){
+                    chbHirlevel.setSelected(true);
+                }else{
+                    chbHirlevel.setSelected(false);
+                }
                 System.out.println("A beolvasott fájl tartalma: ");
-                System.out.println(sorok);
+                System.out.println(read);
                 
                 /* sorok feldolgozása */
                 
